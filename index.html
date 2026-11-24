@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d1b">
+  <title>NOVA — Drive Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">N</span><span>NOVA<span class="brand-sub">DRIVE SPACE</span></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="main-nav">
+        <button class="nav-item active" data-view="overview"><span>◈</span> Overview</button>
+        <button class="nav-item" data-view="files"><span>▤</span> File manager</button>
+        <button class="nav-item" data-view="notes"><span>✎</span> Notes</button>
+        <button class="nav-item" data-view="activity"><span>◷</span> Activity</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="storage-card">
+          <div class="storage-orbit">✦</div>
+          <div class="storage-title">Your space, organized.</div>
+          <p>One clear view for all your resources.</p>
+          <div class="storage-line"><i></i></div>
+          <small id="storage-caption">Connect Drive to load your files</small>
+        </div>
+        <div class="profile-row"><div class="avatar">A</div><div><b>Workspace admin</b><small id="auth-status">Public view</small></div><span class="status-dot"></span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">N</span> NOVA</div>
+        <div class="breadcrumbs"><span>Workspace</span><b>/</b><strong id="crumb-current">Overview</strong></div>
+        <div class="top-actions">
+          <label class="search-box"><span>⌕</span><input id="global-search" placeholder="Search files and notes..." autocomplete="off"><kbd>⌘ K</kbd></label>
+          <button class="icon-btn" id="refresh-btn" title="Refresh">↻</button>
+          <button class="connect-btn" id="login-btn"><span>◉</span> Admin sign in</button>
+        </div>
+      </header>
+
+      <section class="page active" id="view-overview">
+        <div class="welcome-row">
+          <div><div class="eyebrow"><i></i> YOUR DIGITAL WORKSPACE</div><h1>Everything in <span>one place.</span></h1><p class="muted">A live overview of your shared Google Drive library.</p></div>
+          <div class="date-chip"><span class="pulse"></span><span id="sync-label">Waiting for Drive connection</span></div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card stat-purple"><div class="stat-top"><span>Total files</span><span class="stat-icon">▤</span></div><div class="stat-value" id="stat-files">—</div><div class="stat-foot"><span class="trend">↗</span> Files in this workspace</div><div class="sparkline spark-one"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+          <article class="stat-card stat-cyan"><div class="stat-top"><span>Folders</span><span class="stat-icon">▣</span></div><div class="stat-value" id="stat-folders">—</div><div class="stat-foot">Your content structure</div><div class="sparkline spark-two"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+          <article class="stat-card stat-pink"><div class="stat-top"><span>Notes</span><span class="stat-icon">✎</span></div><div class="stat-value" id="stat-notes">—</div><div class="stat-foot">Workspace notes</div><div class="sparkline spark-three"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
+          <article class="stat-card stat-green"><div class="stat-top"><span>Last sync</span><span class="stat-icon">⟳</span></div><div class="stat-value stat-time" id="stat-sync">—</div><div class="stat-foot"><span class="live-dot"></span> Drive connection status</div><div class="sync-ring">✓</div></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel recent-panel">
+            <div class="panel-heading"><div><div class="eyebrow">YOUR LIBRARY</div><h2>Recent files</h2></div><button class="text-btn" data-go="files">View all <span>→</span></button></div>
+            <div class="file-list" id="recent-list"><div class="empty-state"><div class="empty-icon">▤</div><b>Your files will appear here</b><p>Connect a public Drive folder in the setup guide to populate this space.</p></div></div>
+          </section>
+          <section class="panel distribution-panel">
+            <div class="panel-heading"><div><div class="eyebrow">AT A GLANCE</div><h2>File distribution</h2></div><span class="mini-badge">LIVE DATA</span></div>
+            <div class="chart-wrap"><div class="donut" id="donut-chart"><div class="donut-center"><strong id="chart-total">0</strong><small>ITEMS</small></div></div></div>
+            <div class="legend"><div><i class="legend-purple"></i><span>Documents</span><b id="count-docs">0</b></div><div><i class="legend-cyan"></i><span>Images & media</span><b id="count-media">0</b></div><div><i class="legend-pink"></i><span>Other files</span><b id="count-other">0</b></div></div>
+          </section>
+        </div>
+        <section class="panel quick-panel"><div class="panel-heading"><div><div class="eyebrow">QUICK ACTIONS</div><h2>Make something happen</h2></div></div><div class="quick-actions"><button class="quick-action" data-action="upload"><span class="qa-icon qa-purple">↑</span><span><b>Upload files</b><small>Add to your Drive</small></span><em>↗</em></button><button class="quick-action" data-action="folder"><span class="qa-icon qa-cyan">＋</span><span><b>New folder</b><small>Create a collection</small></span><em>↗</em></button><button class="quick-action" data-action="note"><span class="qa-icon qa-pink">✎</span><span><b>Write a note</b><small>Capture an idea</small></span><em>↗</em></button></div></section>
+      </section>
+
+      <section class="page" id="view-files">
+        <div class="page-heading"><div><div class="eyebrow">EXPLORE & ORGANIZE</div><h1>File <span>manager.</span></h1><p class="muted">Browse, search and manage your Drive content.</p></div><div class="heading-actions"><button class="secondary-btn" id="new-folder-btn">＋ New folder</button><button class="primary-btn" id="upload-btn">↑ Upload files</button></div></div>
+        <div class="toolbar"><div class="folder-path" id="folder-path">◈ <b>All files</b></div><div class="view-toggle"><button class="selected">▦</button><button>☷</button></div></div>
+        <div class="file-grid" id="all-files"><div class="empty-state"><div class="empty-icon">▤</div><b>No files loaded yet</b><p>Connect your Google Drive folder to see its contents.</p></div></div>
+      </section>
+
+      <section class="page" id="view-notes">
+        <div class="page-heading"><div><div class="eyebrow">THOUGHTS & IDEAS</div><h1>Your <span>notes.</span></h1><p class="muted">Quick notes saved directly to your Google Drive.</p></div><button class="primary-btn" id="new-note-btn">＋ New note</button></div>
+        <div class="notes-grid" id="notes-grid"><div class="empty-state"><div class="empty-icon">✎</div><b>Your notes live here</b><p>Create a note after signing in as an administrator.</p></div></div>
+      </section>
+
+      <section class="page" id="view-activity">
+        <div class="page-heading"><div><div class="eyebrow">WORKSPACE TIMELINE</div><h1>Recent <span>activity.</span></h1><p class="muted">Latest items returned by Google Drive.</p></div></div>
+        <div class="panel activity-panel" id="activity-list"><div class="empty-state"><div class="empty-icon">◷</div><b>No activity to show</b><p>Drive changes will appear here after connection.</p></div></div>
+      </section>
+
+      <footer class="footer"><span>© 2026 NOVA Workspace</span><span>Powered by Google Drive <i></i></span></footer>
+    </main>
+  </div>
+
+  <input type="file" id="file-input" multiple hidden>
+  <div class="toast" id="toast"></div>
+  <div class="modal-backdrop" id="modal-backdrop"><div class="modal" id="modal"></div></div>
+</body>
+</html>
